@@ -1,10 +1,12 @@
-# Helios Task Management API — Broken Contract
+# Broken API Contract Repair — Part 1: Contract
 
 ## Context
 
 Helios is a SaaS task management platform. The engineering team designed an API for task completion operations and has a broken contract below.
 
 Your job: identify the design problems, repair the contract, and explain why the repairs are better.
+
+This is Part 1 of the assignment. See the main `README.md` one level up for Part 2 (the implementation) and submission instructions.
 
 ---
 
@@ -22,15 +24,11 @@ This is a real contract from a real (fictional) production API. It has three non
 
 ---
 
-## Submission Instructions
+## What to Produce
 
-You will:
-1. Read the broken contract in `contract.yaml`
-2. Identify all three violations
-3. Create a repaired version of `contract.yaml` with all violations fixed
-4. Write a `defence-note.md` explaining:
+1. Read `contract.yaml` and identify all three violations
+2. Create a repaired version of `contract.yaml` in this folder
+3. Write a `defence-note.md` explaining:
    - What each violation was
    - Why the fix is better
    - One alternative approach you considered but rejected
-
-Submit as a PR on the `helios-contract-repair` GitHub repo, branch `repaired-contract`.
