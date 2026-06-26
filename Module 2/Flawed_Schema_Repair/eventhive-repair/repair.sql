@@ -1,0 +1,13 @@
+-- repair.sql — YOU WRITE THIS.
+--
+-- Repair the flawed schema:
+--   1. Pull event facts (name, venue, organiser_email) into their own
+--      `events` table with a primary key. Each event fact stored ONCE.
+--   2. Point registrations at events with a FOREIGN KEY (choose ON DELETE).
+--   3. Write a migration that moves the existing flat data into the new
+--      shape AND de-duplicates the two organiser spellings for DevConf.
+--
+-- Do not lose any event or registration. Then document your reasoning in
+-- defence-note.md.
+
+-- TODO: your repaired schema + migration here
