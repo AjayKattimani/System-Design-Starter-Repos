@@ -1,0 +1,15 @@
+-- Captured BEFORE plan (your numbers will vary slightly):
+-- EXPLAIN ANALYZE
+--   SELECT * FROM play_events
+--   WHERE video_id = 8801 AND played_at >= now() - interval '7 days';
+
+Seq Scan on play_events
+  (cost=0.00..21850.00 rows=95 width=44)
+  (actual time=2.104..614.732 rows=88 loops=1)
+  Filter: ((video_id = 8801) AND (played_at >= (now() - '7 days'::interval)))
+  Rows Removed by Filter: 999912
+Planning Time: 0.112 ms
+Execution Time: 615.901 ms
+
+-- The database reads ALL ~1,000,000 rows to return 88. No usable index on
+-- (video_id, played_at). That is the bottleneck to fix.
