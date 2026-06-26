@@ -1,0 +1,14 @@
+-- constraints.sql — YOU WRITE THIS.
+--
+-- Add the focused set of constraints that block the four invalid states
+-- in invalid-data.sql:
+--   1. NOT NULL   — appointment must have a patient (and the other required fields)
+--   2. FOREIGN KEY — patient_id and doctor_id must reference real rows
+--                    (include an explicit ON DELETE action — your decision)
+--   3. CHECK      — ends_at must be after starts_at
+--   4. UNIQUE     — a doctor cannot be booked twice at the same start time
+--
+-- Use ALTER TABLE ... ADD CONSTRAINT. They must load cleanly against seed.sql.
+-- Then re-run invalid-data.sql and confirm every insert now errors.
+
+-- TODO: your constraints here
