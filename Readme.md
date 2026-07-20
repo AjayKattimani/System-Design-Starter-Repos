@@ -1,116 +1,37 @@
-# System Design — PR Assignment Starter Repo
+# AI Integration Proof Slice — Severity Suggestion
 
-This is a starter repo for a **System Design** PR assignment at Kalvium.
+## What this is (in plain terms)
+A "proof slice" is the smallest bit of working code that shows an AI feature done safely. Here, an AI helper reads an incident's timeline and **suggests** a severity (`LOW` / `MEDIUM` / `HIGH` / `CRITICAL`). Your code decides what the model may see, whether to trust its answer, and what to do when it fails. A human step commits the final change — the AI never edits the real record by itself.
 
----
+It's small on purpose. The point is good decisions, not lots of code.
 
-## About the Course
+## What you do
+Open `index.js` and complete **three short functions**:
 
-**System Design** is a core engineering course in the Kalvium B.Tech CS program. The course teaches you how real software systems are designed before a single line of code is written — how engineers translate messy requirements into bounded promises, how APIs communicate across services, and how good design decisions prevent entire classes of production bugs.
+| Function | Your job |
+|---|---|
+| `buildContext()` | Return only the fields the model is allowed to see. Do **not** include `reporterEmail` or `internalToken`. |
+| `isValid(answer)` | Return `true` only if the answer is safe to use: a known severity and a non-empty reason. |
+| `fallback()` | Return a short message the user sees when the model fails or is invalid, so the workflow still works. |
 
-Module 1 covers the fundamentals:
-- Translating stakeholder requirements into clean system contracts
-- Tracing how requests flow through a codebase
-- Reading and repairing API design violations
+Everything else — the model call, running the request, and the human approval step — is already written for you. Don't change it so that AI output edits `incident.currentSeverity` directly.
 
-The skills you practice here show up in every engineering role — from backend to full-stack to system architecture.
-
----
-
-## What Is a PR Assignment?
-
-A PR (Pull Request) assignment is a hands-on exercise where you work on a real (fictional) codebase or document, make your changes, and submit them as a pull request on GitHub.
-
-Unlike a quiz, a PR assignment tests whether you can **actually do the thing** — read a broken contract and fix it, trace a bug through three files, or cut scope from a noisy requirements dump. Your submission is the diff: the examiner reads what you changed and why.
-
-Each assignment in this repo gives you:
-- A starting point (broken code, a messy spec, or a flawed API contract)
-- A clear task description
-- The files you need to read and modify
-
----
-
-## Your Task
-
-Read the task description in this repo carefully. It will tell you:
-- What the scenario is
-- What files to look at
-- What you need to produce (edited files, a new document, or both)
-- What a good submission looks like
-
----
-
-## How to Submit
-
-Follow these steps exactly. This is the submission process for every PR assignment in this course.
-
-### Step 1 — Fork this repo
-
-Click **Fork** at the top-right of this GitHub page. This creates a copy of the repo under your own GitHub account.
-
-> You are working on **your fork**, not the original. Do not open a PR back to the original repo.
-
-### Step 2 — Clone your fork
-
+## Run it
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
+node index.js
 ```
+No install, no API key — the "model" is a local fake in `index.js`.
 
-### Step 3 — Create a branch
+Change the `MODE` constant near the top to test each path:
+- `'valid'` — a good answer (gets suggested, then applied by the human step),
+- `'badEnum'` — an unknown severity (your `isValid` should reject it → fallback),
+- `'failed'` — the model returns nothing (should hit the fallback).
 
-```bash
-git checkout -b my-solution
-```
+## When you're done
+- `MODE = 'valid'` suggests `HIGH`, then approval changes severity `MEDIUM → HIGH`.
+- `MODE = 'badEnum'` and `MODE = 'failed'` both end in `MANUAL_REVIEW` and leave the real severity unchanged.
 
-Use a descriptive branch name if you like — `my-solution` works fine.
+## Submit
+Open a **PR** with your completed `index.js`. That's it. Add a short comment if any choice isn't obvious from the code.
 
-### Step 4 — Do the work
-
-Read the task. Make your changes. Create any new files the task asks for. Take your time — there is no autograder running a timer.
-
-### Step 5 — Commit and push
-
-```bash
-git add .
-git commit -m "Complete assignment"
-git push origin my-solution
-```
-
-### Step 6 — Open a PR on your own fork
-
-Go to **your forked repo** on GitHub (not the original).
-
-Click **Pull requests → New pull request**.
-
-Set it up like this:
-- **base repository**: `<your-username>/<repo-name>`
-- **base branch**: `main`
-- **compare branch**: `my-solution`
-
-Write a short PR description explaining what you did and any decisions you made. Then click **Create pull request**.
-
-> The PR must be on **your own forked repo**. This is how your instructor reviews your work.
-
-### Step 7 — Share the link
-
-Copy the URL of your GitHub repo (not just the PR — the repo itself):
-
-```
-https://github.com/<your-username>/<repo-name>
-```
-
-Submit this link on the Kalvium platform where the assignment was posted.
-
----
-
-## What Reviewers Look For
-
-- Did you do the task, or just write about it?
-- Are your changes specific and reasoned, not vague?
-- If the task asks for a written explanation, is your reasoning clear?
-- If the task involves code, does it reflect the design principle being taught?
-
-There is no single right answer for most of these assignments. Strong submissions explain *why* they made the choices they did.
-
-
+> Prefer your own project? You may instead submit a small proof slice from your capstone that shows the same four things: a clear model/app boundary, output validation, a fallback, and AI output kept separate from real data. Either option earns full marks.
