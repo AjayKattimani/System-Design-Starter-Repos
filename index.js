@@ -45,8 +45,12 @@ function fakeModel() {
 // ============================================================
 function buildContext() {
   return {
-    // fill this in: title, currentSeverity, service, timeline...
-    // but NOT reporterEmail or internalToken
+    title: incident.title,
+    currentSeverity: incident.currentSeverity,
+    service: incident.service,
+    timeline
+    // reporterEmail and internalToken are deliberately left out —
+    // the model never sees private/internal fields.
   };
 }
 
@@ -56,7 +60,12 @@ function buildContext() {
 // AND there is a non-empty reason.
 // ============================================================
 function isValid(answer) {
-  return false; // fill this in
+  return (
+    !!answer &&
+    SEVERITIES.includes(answer.suggestedSeverity) &&
+    typeof answer.reason === 'string' &&
+    answer.reason.trim().length > 0
+  );
 }
 
 // ============================================================
@@ -64,7 +73,10 @@ function isValid(answer) {
 // Return a short message so the workflow still makes sense.
 // ============================================================
 function fallback() {
-  return { status: 'MANUAL_REVIEW', message: '' /* fill this in */ };
+  return {
+    status: 'MANUAL_REVIEW',
+    message: `AI suggestion unavailable or invalid for ${incident.id}. Please review the timeline manually and set the severity yourself.`
+  };
 }
 
 // ── Given to you: runs one request start to finish. ──
